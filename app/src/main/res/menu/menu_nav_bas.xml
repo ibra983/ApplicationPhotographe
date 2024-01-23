@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/bouttonProfil"
+        android:icon="@drawable/logoprofil"
+        android:title="Profil" />
+
+    <item
+        android:id="@+id/bouttonAccueil"
+        android:icon="@drawable/logoaccueil"
+        android:title="Accueil"/>
+</menu>
