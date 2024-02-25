@@ -1,6 +1,8 @@
 plugins {
     id("com.android.application")
+    kotlin("android") version "1.8.22"
 }
+
 
 android {
     namespace = "com.example.appliblogphoto"

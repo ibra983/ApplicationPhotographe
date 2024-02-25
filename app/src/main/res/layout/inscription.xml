@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="30dp">
+
+    <!-- Image -->
+
+    <!-- Champ de saisie pour le pseudo -->
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
+        android:src="@drawable/inscriptionphoto" />
+
+    <EditText
+        android:id="@+id/etUsernameInscription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imageView"
+        android:layout_marginTop="20dp"
+        android:hint="Pseudo"
+        android:inputType="text" />
+
+    <!-- Champ de saisie pour l'adresse mail -->
+    <EditText
+        android:id="@+id/etMailInscription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/etUsernameInscription"
+        android:layout_marginTop="7dp"
+        android:hint="Adresse Mail" />
+
+    <!-- Champ de saisie pour le mot de passe -->
+    <EditText
+        android:id="@+id/etPasswordInscription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/etMailInscription"
+        android:layout_marginTop="7dp"
+        android:hint="Mot de passe"
+        android:inputType="textPassword" />
+
+
+    <!-- Bouton d'inscription -->
+    <Button
+        android:id="@+id/btnLoginInscription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="S'inscrire"
+        android:layout_below="@id/etPasswordInscription"
+        android:backgroundTint="@color/bleu"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"/>
+
+</RelativeLayout>

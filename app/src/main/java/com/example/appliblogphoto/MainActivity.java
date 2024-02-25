@@ -1,28 +1,36 @@
 package com.example.appliblogphoto;
 
-import android.os.Bundle;
-
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.NavigationUI;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private NavController navController;
+    Button btn_open;
+    TextView tv_inscription;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.page_accueil);
+        setContentView(R.layout.activity_main);
 
+        btn_open = (Button) findViewById(R.id.bt_article1);
 
-        // Récupérez la référence du BottomNavigationView
-        BottomNavigationView bottomNavigationView = findViewById(R.id.nav_view);
+        tv_inscription = findViewById(R.id.inscription);
 
-        // Configurer la navigation avec le NavController
-        NavigationUI.setupWithNavController(bottomNavigationView, navController);
+        btn_open.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, Article1.class);
+                startActivity(intent);
+            }
+        });
+        
     }
 }

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+
+    <ImageView
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/photoaccueil1"
+        android:layout_marginBottom="15dp"
+        android:layout_gravity="center_vertical|center_horizontal"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Découvrez nos derniers articles et laissez-nous savoir ce que vous pensez de nos nouvelles photos ! Votre avis compte beaucoup pour nous !"
+        android:textSize="17dp"
+        android:layout_marginBottom="15dp"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Derniers Articles"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="20dp"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"/>
+
+    <Button
+        android:id="@+id/bt_article1"
+        android:layout_width="300dp"
+        android:layout_height="150px"
+        android:text="Article 1"
+        android:textSize="15sp"
+        android:layout_marginBottom="15dp"
+        android:backgroundTint="@color/bleu"
+        android:layout_gravity="center_vertical|center_horizontal"/>
+
+
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</LinearLayout>
