@@ -127,20 +127,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     // Méthode pour récuperer le login de l'utilisateur connecté de la session cours.
-    @SuppressLint("Range")
-    public String getLoginUtilisateur(String login, String password) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        String[] columns = {COLUMN_LOGIN};
-        String selection = COLUMN_LOGIN + " = ?" + " AND " + COLUMN_PASSWORD + " = ?";
-        String[] selectionArgs = {login, password};
-        Cursor cursor = db.query(TABLE_NAME_USERS, columns, selection, selectionArgs, null, null, null);
-        String utilisateurLogin = null;
-        if (cursor.moveToFirst()) {
-            utilisateurLogin = cursor.getString(cursor.getColumnIndex(COLUMN_LOGIN));
-        }
-        cursor.close();
-        return utilisateurLogin;
-    }
+    //@SuppressLint("Range")
+    //public String getLoginUtilisateur(String login, String password) {
+    //   SQLiteDatabase db = this.getReadableDatabase();
+    //  String[] columns = {COLUMN_LOGIN};
+    //  String selection = COLUMN_LOGIN + " = ?" + " AND " + COLUMN_PASSWORD + " = ?";
+    //  String[] selectionArgs = {login, password};
+    //  Cursor cursor = db.query(TABLE_NAME_USERS, columns, selection, selectionArgs, null, null, null);
+    //  String utilisateurLogin = null;
+    //  if (cursor.moveToFirst()) {
+    //      utilisateurLogin = cursor.getString(cursor.getColumnIndex(COLUMN_LOGIN));
+    //  }
+    //  cursor.close();
+    //  return utilisateurLogin;
+    //  }
 
 
     @SuppressLint("Range")

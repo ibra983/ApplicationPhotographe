@@ -13,7 +13,7 @@ public class MainActivity extends AppCompatActivity {
 
     Button btn_open;
     Button btn_pageArticle;
-    TextView tv_inscription;
+    Button bt_openArticle;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
         btn_open = findViewById(R.id.bt_article1);
         btn_pageArticle = findViewById(R.id.bt_pageArticle);
-        tv_inscription = findViewById(R.id.inscription);
+        bt_openArticle = findViewById(R.id.bt_openArticle);
 
         btn_open.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,5 +46,18 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        bt_openArticle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Passer les détails de l'article à ArticleDetailActivity
+                Intent intent = new Intent(MainActivity.this, ArticleDetailActivity.class);
+                intent.putExtra("articleTitle", "Titre de l'article");
+                intent.putExtra("articleImageUrl", "URL de l'image de l'article");
+                intent.putExtra("articleContent", "Contenu de l'article");
+                startActivity(intent);
+            }
+        });
+
     }
 }
