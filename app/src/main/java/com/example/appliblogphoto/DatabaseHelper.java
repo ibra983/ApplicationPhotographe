@@ -54,6 +54,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     TABLE_NAME_USERS + "(" + COLUMN_ID + "))";
 
 
+    private static final String TABLE_NAME_ARTICLES = "articles";
+    public static final String COLUMN_ARTICLE_ID = "id";
+    public static final String COLUMN_TITLE = "title";
+    public static final String COLUMN_IMAGE_URL = "imageUrl";
+    public static final String COLUMN_CONTENT = "content";
+
+    private static final String SQL_CREATE_ENTRIES_ARTICLES =
+            "CREATE TABLE " + TABLE_NAME_ARTICLES + " (" +
+                    COLUMN_ARTICLE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    COLUMN_TITLE + " TEXT, " +
+                    COLUMN_IMAGE_URL + " TEXT, " +
+                    COLUMN_CONTENT + " TEXT" +
+                    ")";
+
 
 
     public DatabaseHelper(Context context) {
@@ -63,6 +77,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQL_CREATE_ENTRIES_USERS);
         db.execSQL(SQL_CREATE_ENTRIES_COMMENTS);
+        db.execSQL(SQL_CREATE_ENTRIES_ARTICLES);
     }
 
     @Override
@@ -141,6 +156,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         cursor.close();
         return userID;
+    }
+
+
+    // Méthode pour insérer un article
+    public void addArticle(String title, String imageUrl, String content) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_TITLE, title);
+        values.put(COLUMN_IMAGE_URL, imageUrl);
+        values.put(COLUMN_CONTENT, content);
+        db.insert(TABLE_NAME_ARTICLES, null, values);
+        db.close();
     }
 
 }

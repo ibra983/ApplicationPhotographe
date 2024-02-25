@@ -12,6 +12,7 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
 
     Button btn_open;
+    Button btn_pageArticle;
     TextView tv_inscription;
 
     @SuppressLint("MissingInflatedId")
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
         int userID = getIntent().getIntExtra("userID", -1);
 
         btn_open = findViewById(R.id.bt_article1);
+        btn_pageArticle = findViewById(R.id.bt_pageArticle);
         tv_inscription = findViewById(R.id.inscription);
 
         btn_open.setOnClickListener(new View.OnClickListener() {
@@ -30,6 +32,16 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Passer l'ID de l'utilisateur à Article1
                 Intent intent = new Intent(MainActivity.this, Article1.class);
+                intent.putExtra("userID", userID);
+                startActivity(intent);
+            }
+        });
+
+        btn_pageArticle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Passer l'ID de l'utilisateur à Article1
+                Intent intent = new Intent(MainActivity.this, com.example.appliblogphoto.AddArticleActivity.class);
                 intent.putExtra("userID", userID);
                 startActivity(intent);
             }

@@ -3,9 +3,7 @@ plugins {
     kotlin("android") version "1.8.22"
 }
 
-
 android {
-    namespace = "com.example.appliblogphoto"
     compileSdk = 34
 
     defaultConfig {
@@ -28,10 +26,15 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
+    // Ajoutez cette ligne pour spécifier le namespace
+    namespace = "com.example.appliblogphoto"
 }
 
-dependencies {
 
+dependencies {
+    implementation("com.github.bumptech.glide:glide:4.12.0")
+    kotlin("kapt", "com.github.bumptech.glide:compiler:4.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
