@@ -16,6 +16,8 @@ public class LoginActivity extends AppCompatActivity {
     public Button btnLogin;
     public TextView inscription; // Changer le nom de tvSignUpPrompt à inscription
     private DatabaseHelper dbHelper;
+    private int userID;
+
 
 
     @Override
@@ -37,21 +39,21 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String login = etUsername.getText().toString();
                 String password = etPassword.getText().toString();
-
                 // Vérifier si l'utilisateur existe et récupérer son login
-                String utilisateurLogin = dbHelper.getLoginUtilisateur(login, password);
+                userID = dbHelper.getUserID(login, password);
 
-                if (utilisateurLogin != null) {
+                if (userID != -1) {
                     Toast.makeText(LoginActivity.this, "Connexion réussie", Toast.LENGTH_SHORT).show();
 
-                    // Création de l'Intent pour démarrer MainActivity
+                    // Création de l'Intent pour démarrer Article1
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    intent.putExtra("userID", userID); // Transmettre l'ID de l'utilisateur à Article1
                     startActivity(intent);
                     finish();  // Pour fermer LoginActivity après la connexion réussie
-
                 } else {
                     Toast.makeText(LoginActivity.this, "Échec de la connexion", Toast.LENGTH_SHORT).show();
                 }
+
             }
         });
 
@@ -64,5 +66,9 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+    }
+    public int getUserID() {
+        return userID;
     }
 }

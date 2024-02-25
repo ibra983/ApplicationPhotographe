@@ -20,17 +20,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btn_open = (Button) findViewById(R.id.bt_article1);
+        int userID = getIntent().getIntExtra("userID", -1);
 
+        btn_open = findViewById(R.id.bt_article1);
         tv_inscription = findViewById(R.id.inscription);
 
         btn_open.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Passer l'ID de l'utilisateur à Article1
                 Intent intent = new Intent(MainActivity.this, Article1.class);
+                intent.putExtra("userID", userID);
                 startActivity(intent);
             }
         });
-        
     }
 }

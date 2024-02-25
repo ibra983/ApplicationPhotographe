@@ -16,7 +16,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Nom de la base de données
     private static final String DATABASE_NAME = "blog_app.db";
     // Version de la base de données. Si vous modifiez le schéma de la base de données, vous devez incrémenter la version.
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
     // Nom de la table ( ici utilisateurs )
     private static final String TABLE_NAME_USERS = "utilisateurs";
     // Colonnes de la table utilisateurs
@@ -41,13 +41,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Colonnes de la table commentaires
     private static final String COLUMN_COMMENTS_ID = "id";
     private static final String COLUMN_COMMENTS = "commentaire";
+    private static final String COLUMN_COMMENTS_USER_ID = "user_id";
 
 
     // Requête de création de la table
     private static final String SQL_CREATE_ENTRIES_COMMENTS =
             "CREATE TABLE " + TABLE_NAME_COMMENTS + " (" +
                     COLUMN_COMMENTS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    COLUMN_COMMENTS + " TEXT )";
+                    COLUMN_COMMENTS + " TEXT, " +
+                    COLUMN_COMMENTS_USER_ID + " INTEGER, " +
+                    "FOREIGN KEY(" + COLUMN_COMMENTS_USER_ID + ") REFERENCES " +
+                    TABLE_NAME_USERS + "(" + COLUMN_ID + "))";
+
 
 
 
@@ -95,10 +100,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     // Méthode pour ajouter un commentaire
-    public void ajouterCommentaire(String commentaire) {
+    public void ajouterCommentaire(String commentaire, int userID) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_COMMENTS, commentaire);
+        values.put(COLUMN_COMMENTS_USER_ID, userID);
         // Insertion d'une nouvelle ligne dans la table "commentaires"
         db.insert(TABLE_NAME_COMMENTS, null, values);
     }
@@ -122,6 +128,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
+    @SuppressLint("Range")
+    public int getUserID(String username, String password) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String[] columns = {COLUMN_ID}; // Supposons que COLUMN_ID est la colonne contenant l'identifiant de l'utilisateur
+        String selection = COLUMN_LOGIN + " = ? AND " + COLUMN_PASSWORD + " = ?";
+        String[] selectionArgs = {username, password};
+        Cursor cursor = db.query(TABLE_NAME_USERS, columns, selection, selectionArgs, null, null, null);
+        int userID = -1;
+        if (cursor.moveToFirst()) {
+            userID = cursor.getInt(cursor.getColumnIndex(COLUMN_ID));
+        }
+        cursor.close();
+        return userID;
+    }
 
 }
 

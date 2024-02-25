@@ -1,21 +1,18 @@
 package com.example.appliblogphoto;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-
-import java.util.List;
 
 public class Article1 extends AppCompatActivity {
 
+    private EditText editTextContenu;
+    private Button btnPublier;
     private DatabaseHelper dbHelper;
+    private int userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +20,7 @@ public class Article1 extends AppCompatActivity {
         setContentView(R.layout.article1);
 
         dbHelper = new DatabaseHelper(this);
+        userID = getIntent().getIntExtra("userID", -1);
 
         Button btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -32,26 +30,23 @@ public class Article1 extends AppCompatActivity {
             }
         });
 
+        editTextContenu = findViewById(R.id.editTextContenu);
+        btnPublier = findViewById(R.id.btnPublier);
 
-        // Initialisation du bouton publier
-        Button btnPublier = findViewById(R.id.btnPublier);
         btnPublier.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText editTextContenu = findViewById(R.id.editTextContenu);
                 String contenu = editTextContenu.getText().toString();
-                // Ajouter le commentaire à la base de données
-                ajouterCommentaire(contenu);
-                // Effacer le texte de l'EditText
+                // Ajouter le commentaire à la base de données avec l'identifiant de l'utilisateur
+                ajouterCommentaire(contenu, userID);
                 editTextContenu.setText("");
+                Toast.makeText(Article1.this, "Commentaire publié avec succès", Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
-    // Méthode pour ajouter un commentaire à la base de données
-    private void ajouterCommentaire (String contenuCommentaire){
-        dbHelper.ajouterCommentaire(contenuCommentaire); // Appel de la méthode sans spécifier l'identifiant de l'utilisateur
+    private void ajouterCommentaire(String contenuCommentaire, int userID) {
+        dbHelper.ajouterCommentaire(contenuCommentaire, userID);
     }
 }
 
