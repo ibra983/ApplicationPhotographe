@@ -1,12 +1,22 @@
 package com.example.appliblogphoto;
 
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.util.Log;
+import android.widget.Toast;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
+import android.util.Log;
+
+
 
 import java.util.List;
 
@@ -22,6 +32,24 @@ public class MainActivity extends AppCompatActivity {
 
         dbHelper = new DatabaseHelper(this);
         int userID = getIntent().getIntExtra("userID", -1);
+
+
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (task.isSuccessful()) {
+                            // Récupérer le jeton FCM avec succès
+                            String token = task.getResult();
+                            // Log et afficher le jeton
+                            Log.d(TAG, "FCM Token: " + token);
+                            Toast.makeText(MainActivity.this, "FCM Token: " + token, Toast.LENGTH_SHORT).show();
+                        } else {
+                            // Échec de la récupération du jeton FCM
+                            Log.e(TAG, "Fetching FCM registration token failed", task.getException());
+                        }
+                    }
+                });
 
         btn_pageArticle = findViewById(R.id.btn_pageArticle);
 

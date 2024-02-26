@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "692738318665",
+    "project_id": "applicationblogphotographe",
+    "storage_bucket": "applicationblogphotographe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:692738318665:android:c389ffaca66b316736ba98",
+        "android_client_info": {
+          "package_name": "com.example.appliblogphoto"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOUYErbvJGeiHe-E8MM9sA__aMyeUsCck"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

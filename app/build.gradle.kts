@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     kotlin("android") version "1.8.22"
+    id("com.google.gms.google-services") version "4.4.1"
 }
 
 android {
@@ -32,7 +33,11 @@ android {
 }
 
 
+
 dependencies {
+    implementation("com.google.firebase:firebase-messaging:22.2.0")
+    implementation(platform("com.google.firebase:firebase-bom:32.7.2"))
+    implementation("com.google.firebase:firebase-analytics")
     implementation("com.github.bumptech.glide:glide:4.12.0")
     kotlin("kapt", "com.github.bumptech.glide:compiler:4.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
