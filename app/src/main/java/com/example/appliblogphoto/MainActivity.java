@@ -1,37 +1,34 @@
 package com.example.appliblogphoto;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.LinearLayout;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     Button btn_open;
     Button btn_pageArticle;
-    Button bt_openArticle;
+    private DatabaseHelper dbHelper;
 
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        dbHelper = new DatabaseHelper(this);
         int userID = getIntent().getIntExtra("userID", -1);
 
         btn_open = findViewById(R.id.bt_article1);
-        btn_pageArticle = findViewById(R.id.bt_pageArticle);
-        bt_openArticle = findViewById(R.id.bt_openArticle);
-
+        btn_pageArticle = findViewById(R.id.btn_pageArticle);
         btn_open.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Passer l'ID de l'utilisateur à Article1
-                Intent intent = new Intent(MainActivity.this, Article1.class);
+                Intent intent = new Intent(MainActivity.this, Article.class);
                 intent.putExtra("userID", userID);
                 startActivity(intent);
             }
@@ -40,24 +37,44 @@ public class MainActivity extends AppCompatActivity {
         btn_pageArticle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Passer l'ID de l'utilisateur à Article1
+                // Passer l'ID de l'utilisateur à Article
                 Intent intent = new Intent(MainActivity.this, com.example.appliblogphoto.AddArticleActivity.class);
                 intent.putExtra("userID", userID);
                 startActivity(intent);
             }
         });
 
-        bt_openArticle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Passer les détails de l'article à ArticleDetailActivity
-                Intent intent = new Intent(MainActivity.this, ArticleDetailActivity.class);
-                intent.putExtra("articleTitle", "Titre de l'article");
-                intent.putExtra("articleImageUrl", "URL de l'image de l'article");
-                intent.putExtra("articleContent", "Contenu de l'article");
-                startActivity(intent);
-            }
-        });
 
+
+        // Charger les articles depuis la base de données
+        List<Article> articlesList = dbHelper.getAllArticles();
+
+        // Créer et afficher les boutons pour chaque article
+        createArticleButtons(articlesList, userID);
+    }
+
+    private void createArticleButtons(List<Article> articlesList, int userID) {
+        LinearLayout articleLayout = findViewById(R.id.articleContainer); // LinearLayout dans votre layout principal
+        articleLayout.removeAllViews(); // Supprime les vues précédentes pour éviter les duplications
+
+        // Créer un bouton pour chaque article
+        for (Article article : articlesList) {
+            Button button = new Button(this);
+            button.setText(article.getTitle());
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Passer les détails de l'article à ArticleDetailActivity
+                    Intent intent = new Intent(MainActivity.this, ArticleDetailActivity.class);
+                    intent.putExtra("userID", userID);
+                    intent.putExtra("articleID", article.getId());
+                    intent.putExtra("articleTitle", article.getTitle());
+                    intent.putExtra("articleImageUrl", article.getImageUrl());
+                    intent.putExtra("articleContent", article.getContent());
+                    startActivity(intent);
+                }
+            });
+            articleLayout.addView(button);
+        }
     }
 }

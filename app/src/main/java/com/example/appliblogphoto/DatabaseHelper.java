@@ -13,18 +13,18 @@ import java.util.ArrayList;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
+
     // Nom de la base de données
     private static final String DATABASE_NAME = "blog_app.db";
     // Version de la base de données. Si vous modifiez le schéma de la base de données, vous devez incrémenter la version.
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 1;
     // Nom de la table ( ici utilisateurs )
+    // Constantes pour la table des utilisateurs
     private static final String TABLE_NAME_USERS = "utilisateurs";
-    // Colonnes de la table utilisateurs
     private static final String COLUMN_ID = "id";
     private static final String COLUMN_EMAIL = "email";
     private static final String COLUMN_PASSWORD = "password";
     private static final String COLUMN_LOGIN = "login";
-    // Requête de création de la table
     private static final String SQL_CREATE_ENTRIES_USERS =
             "CREATE TABLE " + TABLE_NAME_USERS + " (" +
                     COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -32,34 +32,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     COLUMN_PASSWORD + " TEXT," +
                     COLUMN_LOGIN + " TEXT )";
 
-
-
-
-
-    // Nom de la table ( ici la table commentaires )
-    private static final String TABLE_NAME_COMMENTS = "commentaires";
-    // Colonnes de la table commentaires
-    private static final String COLUMN_COMMENTS_ID = "id";
-    private static final String COLUMN_COMMENTS = "commentaire";
-    private static final String COLUMN_COMMENTS_USER_ID = "user_id";
-
-
-    // Requête de création de la table
-    private static final String SQL_CREATE_ENTRIES_COMMENTS =
-            "CREATE TABLE " + TABLE_NAME_COMMENTS + " (" +
-                    COLUMN_COMMENTS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    COLUMN_COMMENTS + " TEXT, " +
-                    COLUMN_COMMENTS_USER_ID + " INTEGER, " +
-                    "FOREIGN KEY(" + COLUMN_COMMENTS_USER_ID + ") REFERENCES " +
-                    TABLE_NAME_USERS + "(" + COLUMN_ID + "))";
-
-
+    // Constantes pour la table des articles
     private static final String TABLE_NAME_ARTICLES = "articles";
     public static final String COLUMN_ARTICLE_ID = "id";
     public static final String COLUMN_TITLE = "title";
     public static final String COLUMN_IMAGE_URL = "imageUrl";
     public static final String COLUMN_CONTENT = "content";
-
     private static final String SQL_CREATE_ENTRIES_ARTICLES =
             "CREATE TABLE " + TABLE_NAME_ARTICLES + " (" +
                     COLUMN_ARTICLE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -67,6 +45,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     COLUMN_IMAGE_URL + " TEXT, " +
                     COLUMN_CONTENT + " TEXT" +
                     ")";
+
+    // Constantes pour la table des commentaires
+    private static final String TABLE_NAME_COMMENTS = "commentaires";
+    private static final String COLUMN_COMMENTS_ID = "id";
+    private static final String COLUMN_COMMENTS = "commentaire";
+    private static final String COLUMN_COMMENTS_USER_ID = "user_id";
+    private static final String COLUMN_COMMENTS_ARTICLES_ID = "articles_id";
+    private static final String SQL_CREATE_ENTRIES_COMMENTS =
+            "CREATE TABLE " + TABLE_NAME_COMMENTS + " (" +
+                    COLUMN_COMMENTS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    COLUMN_COMMENTS + " TEXT, " +
+                    COLUMN_COMMENTS_USER_ID + " INTEGER, " +
+                    COLUMN_COMMENTS_ARTICLES_ID + " INTEGER, " +
+                    "FOREIGN KEY(" + COLUMN_COMMENTS_ARTICLES_ID + ") REFERENCES " +
+                    TABLE_NAME_ARTICLES + "(" + COLUMN_ARTICLE_ID + "), " +
+                    "FOREIGN KEY(" + COLUMN_COMMENTS_USER_ID + ") REFERENCES " +
+                    TABLE_NAME_USERS + "(" + COLUMN_ID + "))";
 
 
 
@@ -115,11 +110,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     // Méthode pour ajouter un commentaire
-    public void ajouterCommentaire(String commentaire, int userID) {
+    public void ajouterCommentaire(String commentaire, int userID, int articles_id) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_COMMENTS, commentaire);
         values.put(COLUMN_COMMENTS_USER_ID, userID);
+        values.put(COLUMN_COMMENTS_ARTICLES_ID, articles_id);
         // Insertion d'une nouvelle ligne dans la table "commentaires"
         db.insert(TABLE_NAME_COMMENTS, null, values);
     }
@@ -168,6 +164,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_CONTENT, content);
         db.insert(TABLE_NAME_ARTICLES, null, values);
         db.close();
+    }
+
+
+    public List<Article> getAllArticles() {
+        List<Article> articlesList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME_ARTICLES, null);
+        if (cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(cursor.getColumnIndex(COLUMN_ARTICLE_ID));
+                String title = cursor.getString(cursor.getColumnIndex(COLUMN_TITLE));
+                String imageUrl = cursor.getString(cursor.getColumnIndex(COLUMN_IMAGE_URL));
+                String content = cursor.getString(cursor.getColumnIndex(COLUMN_CONTENT));
+                Article article = new Article(id, title, imageUrl, content);
+                articlesList.add(article);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return articlesList;
     }
 
 }

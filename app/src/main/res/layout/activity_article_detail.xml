@@ -34,5 +34,19 @@
             android:layout_height="wrap_content"
             android:textSize="16sp" />
 
+        <EditText
+            android:id="@+id/editTextContenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Entrez votre contenu ici"
+            android:inputType="textMultiLine"
+            android:maxLines="5" />
+        <Button
+            android:id="@+id/btnPublier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Publier"
+            android:layout_gravity="end"/>
+
     </LinearLayout>
 </ScrollView>
