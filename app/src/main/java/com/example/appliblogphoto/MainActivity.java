@@ -10,7 +10,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btn_open;
     Button btn_pageArticle;
     private DatabaseHelper dbHelper;
 
@@ -22,17 +21,8 @@ public class MainActivity extends AppCompatActivity {
         dbHelper = new DatabaseHelper(this);
         int userID = getIntent().getIntExtra("userID", -1);
 
-        btn_open = findViewById(R.id.bt_article1);
         btn_pageArticle = findViewById(R.id.btn_pageArticle);
-        btn_open.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Passer l'ID de l'utilisateur à Article1
-                Intent intent = new Intent(MainActivity.this, Article.class);
-                intent.putExtra("userID", userID);
-                startActivity(intent);
-            }
-        });
+
 
         btn_pageArticle.setOnClickListener(new View.OnClickListener() {
             @Override
