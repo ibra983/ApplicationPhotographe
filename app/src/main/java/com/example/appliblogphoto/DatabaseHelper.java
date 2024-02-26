@@ -185,5 +185,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return articlesList;
     }
 
+    public List<Commentaire> getAllCommentaires(int articleID) {
+        List<Commentaire> commentairesList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME_COMMENTS + " WHERE " + COLUMN_COMMENTS_ARTICLES_ID + " = ?", new String[]{String.valueOf(articleID)});
+        if (cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(cursor.getColumnIndex(COLUMN_COMMENTS_ID));
+                String commentaireText = cursor.getString(cursor.getColumnIndex(COLUMN_COMMENTS));
+                Commentaire commentaire = new Commentaire(id, commentaireText);
+                commentairesList.add(commentaire);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return commentairesList;
+    }
+
+
+
 }
 

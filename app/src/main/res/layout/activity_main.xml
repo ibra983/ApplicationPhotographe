@@ -4,6 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <Button
+        android:id="@+id/btn_pageArticle"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="15dp"
+        android:layout_marginEnd="15dp"
+        android:src="@drawable/unplus" />
+
     <LinearLayout
         android:id="@+id/articleContainer"
         android:layout_width="match_parent"
@@ -11,8 +21,15 @@
         android:orientation="vertical"
         android:padding="16dp"
         android:layout_above="@id/btn_pageArticle">
+    </LinearLayout>
 
-
+    <LinearLayout
+        android:id="@+id/commentaireContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:layout_below="@id/articleContainer">
 
     </LinearLayout>
 
@@ -50,15 +67,5 @@
             android:gravity="center" />
 
     </LinearLayout>
-
-    <Button
-        android:id="@+id/btn_pageArticle"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="15dp"
-        android:layout_marginEnd="15dp"
-        android:src="@drawable/unplus" />
 
 </RelativeLayout>

@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -54,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+
                     // Passer les détails de l'article à ArticleDetailActivity
                     Intent intent = new Intent(MainActivity.this, ArticleDetailActivity.class);
                     intent.putExtra("userID", userID);
@@ -61,10 +65,21 @@ public class MainActivity extends AppCompatActivity {
                     intent.putExtra("articleTitle", article.getTitle());
                     intent.putExtra("articleImageUrl", article.getImageUrl());
                     intent.putExtra("articleContent", article.getContent());
+                    // Charger les commentaires associés à cet article
+
+                    List<Commentaire> commentaires = dbHelper.getAllCommentaires(article.getId());
+
+                    // Convertir la liste de commentaires en une chaîne de caractères et la passer à ArticleDetailActivity
+                    StringBuilder commentaireStringBuilder = new StringBuilder();
+                    for (Commentaire commentaire : commentaires) {
+                        commentaireStringBuilder.append(commentaire.getCommentaire()).append("\n");
+                    }
+                    intent.putExtra("articleCommentaire", commentaireStringBuilder.toString());
                     startActivity(intent);
                 }
             });
             articleLayout.addView(button);
+
         }
     }
 }
