@@ -9,11 +9,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-
 import java.util.List;
 
 public class ArticleDetailActivity extends AppCompatActivity {
@@ -28,71 +26,73 @@ public class ArticleDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article_detail);
 
+        // Initialisation de la base de données
         dbHelper = new DatabaseHelper(this);
+
+        // Récupération de la référence de l'EditText pour le contenu du commentaire
         editTextContenu = findViewById(R.id.editTextContenu);
 
-        // Récupération des données de l'article(titre, image, content) avec l'intent
+        // Récupération des données de l'article depuis l'intent
         Intent intent = getIntent();
         String title = intent.getStringExtra("articleTitle");
         String imageUrl = intent.getStringExtra("articleImageUrl");
         String content = intent.getStringExtra("articleContent");
+        articleID = intent.getIntExtra("articleID", -1); // Récupération de l'ID de l'article
 
-        // Récupération de l'ID de l'article à partir de l'intent
-        articleID = intent.getIntExtra("articleID", -1);
-
-        // Récupération des données de l'article (commentaire) avec l'intent
+        // Récupération du commentaire associé à l'article depuis l'intent
         String commentaire = intent.getStringExtra("articleCommentaire");
 
-        // Trouver les vues par leur id et les peupler avec les données de l'article
+        // Trouver les vues par leur identifiant et les peupler avec les données de l'article
         TextView titleTextView = findViewById(R.id.detailArticleTitleTextView);
         ImageView imageView = findViewById(R.id.detailArticleImageView);
         TextView contentTextView = findViewById(R.id.detailArticleContentTextView);
 
-        LinearLayout commentaireContainer = findViewById(R.id.commentaireContainer); // Ajouté
-
+        // Affichage des données de l'article dans les vues correspondantes
         titleTextView.setText(title);
         contentTextView.setText(content);
 
-        // Utilisez Glide pour charger l'image depuis imageUrl dans imageView
+        // Utilisation de Glide pour charger l'image depuis l'URL dans l'ImageView
         Glide.with(this)
                 .load(imageUrl)
-                .apply(new RequestOptions().error(R.drawable.image_error)) // Utilisez une image d'erreur en cas d'échec du chargement
+                .apply(new RequestOptions().error(R.drawable.image_error)) // Utilisation d'une image d'erreur en cas de chargement échoué
                 .into(imageView);
 
-        // Affichage des commentaires
-        commentaireContainer.removeAllViews(); // Supprime les vues précédentes pour éviter les duplications
+        // Affichage des commentaires associés à l'article
+        LinearLayout commentaireContainer = findViewById(R.id.commentaireContainer);
+        commentaireContainer.removeAllViews(); // Suppression des vues précédentes pour éviter les duplications
 
-        // Charger les commentaires associés à l'article depuis la base de données
+        // Récupération des commentaires associés à l'article depuis la base de données
         List<Commentaire> commentaires = dbHelper.getAllCommentaires(articleID);
 
-        // Ajouter dynamiquement un TextView pour chaque commentaire dans le LinearLayout
+        // Ajout dynamique d'un TextView pour chaque commentaire dans le LinearLayout
         for (Commentaire comment : commentaires) {
             TextView textView = new TextView(this);
-            textView.setText(comment.getCommentaire()); // Utilisez la méthode getCommentaire() de la classe Commentaire
+            textView.setText(comment.getCommentaire()); // Utilisation de la méthode getCommentaire() de la classe Commentaire
             textView.setTextSize(16); // Taille du texte
-            // Autres paramètres de mise en forme du TextView si nécessaire
-            commentaireContainer.addView(textView); // Ajoutez le TextView au conteneur
+            commentaireContainer.addView(textView); // Ajout du TextView au conteneur
         }
 
-
+        // Définition du listener de clic sur le bouton "Publier"
         Button btnPublier = findViewById(R.id.btnPublier);
         btnPublier.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Obtenez le contenu du commentaire de l'utilisateur
+                // Récupération du contenu du commentaire saisi par l'utilisateur
                 String contenuCommentaire = editTextContenu.getText().toString();
-                // obtenir l'ID de l'utilisateur et l'ID de l'article associé à cet article
-                userID = getIntent().getIntExtra("userID", -1); // Obtenir l'ID de l'utilisateur à partir de l'intent
-                articleID = getIntent().getIntExtra("articleID", -1); // Obtenir l'ID de l'article à partir de l'intent
-                // Ajouter le commentaire à la base de données en utilisant votre DatabaseHelper
-                dbHelper.ajouterCommentaire(contenuCommentaire, userID, articleID);
-                // Effacez le contenu de l'EditText après avoir ajouté le commentaire
+                // Récupération de l'ID de l'utilisateur et de l'ID de l'article associé à cet article
+                userID = getIntent().getIntExtra("userID", -1);
+                articleID = getIntent().getIntExtra("articleID", -1);
+                // Ajout du commentaire à la base de données en utilisant le DatabaseHelper
+                ajouterCommentaire(contenuCommentaire, userID, articleID);
+                // Effacement du contenu de l'EditText après l'ajout du commentaire
                 editTextContenu.setText("");
-                // Affichez un message pour indiquer que le commentaire a été ajouté avec succès
+                // Affichage d'un message pour indiquer que le commentaire a été ajouté avec succès
                 Toast.makeText(ArticleDetailActivity.this, "Commentaire publié avec succès", Toast.LENGTH_SHORT).show();
             }
         });
     }
+
+    // Méthode pour ajouter un commentaire à la base de données
     private void ajouterCommentaire(String contenuCommentaire, int userID, int articles_id) {
         dbHelper.ajouterCommentaire(contenuCommentaire, userID, articles_id);
     }

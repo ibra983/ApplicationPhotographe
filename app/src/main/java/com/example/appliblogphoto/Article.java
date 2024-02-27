@@ -6,6 +6,7 @@ public class Article {
     private String imageUrl;
     private String content;
 
+    // Constructeur de la classe Article prenant en paramètres les différentes informations d'un article
     public Article(int id, String title, String imageUrl, String content) {
         this.id = id;
         this.title = title;
@@ -13,7 +14,8 @@ public class Article {
         this.content = content;
     }
 
-    // Getters et Setters
+    // Getters et Setters pour accéder et modifier les attributs de l'article
+
     public int getId() {
         return id;
     }
@@ -45,6 +47,4 @@ public class Article {
     public void setContent(String content) {
         this.content = content;
     }
-
-
 }

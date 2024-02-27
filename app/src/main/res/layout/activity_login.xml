@@ -13,12 +13,22 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"/>
 
+    <!-- Texte pour l'inscription -->
+    <TextView
+        android:id="@+id/inscription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pas encore de compte ? S'inscrire"
+        android:layout_below="@id/imageView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"/>
+
     <!-- Champ de saisie pour le pseudo -->
     <EditText
         android:id="@+id/etUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/imageView"
+        android:layout_below="@id/inscription"
         android:layout_marginTop="20dp"
         android:hint="Pseudo"
         android:inputType="text" />
@@ -42,16 +52,6 @@
         android:layout_below="@id/etPassword"
         android:layout_centerHorizontal="true"
         android:backgroundTint="@color/bleu"
-        android:layout_marginTop="20dp"/>
-
-    <!-- Texte pour l'inscription -->
-    <TextView
-        android:id="@+id/inscription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Pas encore de compte ? S'inscrire"
-        android:layout_below="@id/btnLogin"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"/>
 
 </RelativeLayout>

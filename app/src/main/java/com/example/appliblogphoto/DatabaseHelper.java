@@ -9,16 +9,17 @@ import android.content.ContentValues;
 import java.util.List;
 import java.util.ArrayList;
 
-
-
+/**
+ * Classe pour la gestion de la base de données de l'application.
+ * Elle gère les opérations de création de la base de données, l'ajout d'utilisateurs, d'articles, de commentaires, etc.
+ */
 public class DatabaseHelper extends SQLiteOpenHelper {
-
 
     // Nom de la base de données
     private static final String DATABASE_NAME = "blog_app.db";
     // Version de la base de données. Si vous modifiez le schéma de la base de données, vous devez incrémenter la version.
     private static final int DATABASE_VERSION = 1;
-    // Nom de la table ( ici utilisateurs )
+
     // Constantes pour la table des utilisateurs
     private static final String TABLE_NAME_USERS = "utilisateurs";
     private static final String COLUMN_ID = "id";
@@ -63,13 +64,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     "FOREIGN KEY(" + COLUMN_COMMENTS_USER_ID + ") REFERENCES " +
                     TABLE_NAME_USERS + "(" + COLUMN_ID + "))";
 
-
-
+    /**
+     * Constructeur de la classe DatabaseHelper.
+     * @param context Contexte de l'application.
+     */
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
+
     @Override
     public void onCreate(SQLiteDatabase db) {
+        // Création des tables dans la base de données lors de la création de la base
         db.execSQL(SQL_CREATE_ENTRIES_USERS);
         db.execSQL(SQL_CREATE_ENTRIES_COMMENTS);
         db.execSQL(SQL_CREATE_ENTRIES_ARTICLES);
@@ -77,14 +82,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        // Méthode appelée lors de la mise à jour de la base de données, non implémentée ici.
     }
 
-
-    // Méthode pour ajouter un user dans la BDD ( login, mail, mot de passe )
+    /**
+     * Méthode pour ajouter un nouvel utilisateur dans la base de données.
+     * @param login Login de l'utilisateur.
+     * @param email Email de l'utilisateur.
+     * @param password Mot de passe de l'utilisateur.
+     */
     public void ajouterNouvelUtilisateur(String login, String email, String password) {
         SQLiteDatabase db = this.getWritableDatabase();
-
         ContentValues values = new ContentValues();
         values.put(COLUMN_LOGIN, login);
         values.put(COLUMN_EMAIL, email);
@@ -93,23 +101,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.insert(TABLE_NAME_USERS, null, values);
     }
 
-
-    // Méthode pour vérifier si l'utilisateur est bien dispo dans la BDD
-    // donc autorise connexion si c'est le cas
-    // public boolean verifierUtilisateur(String login, String password) {
-        // SQLiteDatabase db = this.getReadableDatabase();
-        // String[] columns = {COLUMN_ID};
-        // String selection = COLUMN_LOGIN + " = ?" + " AND " + COLUMN_PASSWORD + " = ?";
-        // String[] selectionArgs = {login, password};
-        // String limit = "1";
-        //  Cursor cursor = db.query(TABLE_NAME_USERS, columns, selection, selectionArgs, null, null, null, limit);
-        //   boolean utilisateurExiste = cursor.moveToFirst();
-        //   cursor.close();
-    //    return utilisateurExiste;
-    //}
-
-
-    // Méthode pour ajouter un commentaire
+    /**
+     * Méthode pour ajouter un commentaire dans la base de données.
+     * @param commentaire Contenu du commentaire.
+     * @param userID ID de l'utilisateur associé au commentaire.
+     * @param articles_id ID de l'article associé au commentaire.
+     */
     public void ajouterCommentaire(String commentaire, int userID, int articles_id) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -120,29 +117,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.insert(TABLE_NAME_COMMENTS, null, values);
     }
 
-
-
-    // Méthode pour récuperer le login de l'utilisateur connecté de la session cours.
-    //@SuppressLint("Range")
-    //public String getLoginUtilisateur(String login, String password) {
-    //   SQLiteDatabase db = this.getReadableDatabase();
-    //  String[] columns = {COLUMN_LOGIN};
-    //  String selection = COLUMN_LOGIN + " = ?" + " AND " + COLUMN_PASSWORD + " = ?";
-    //  String[] selectionArgs = {login, password};
-    //  Cursor cursor = db.query(TABLE_NAME_USERS, columns, selection, selectionArgs, null, null, null);
-    //  String utilisateurLogin = null;
-    //  if (cursor.moveToFirst()) {
-    //      utilisateurLogin = cursor.getString(cursor.getColumnIndex(COLUMN_LOGIN));
-    //  }
-    //  cursor.close();
-    //  return utilisateurLogin;
-    //  }
-
-
+    /**
+     * Méthode pour obtenir l'ID de l'utilisateur à partir de son nom d'utilisateur et de son mot de passe.
+     * @param username Nom d'utilisateur de l'utilisateur.
+     * @param password Mot de passe de l'utilisateur.
+     * @return L'ID de l'utilisateur, -1 s'il n'est pas trouvé.
+     */
     @SuppressLint("Range")
     public int getUserID(String username, String password) {
         SQLiteDatabase db = this.getReadableDatabase();
-        String[] columns = {COLUMN_ID}; // Supposons que COLUMN_ID est la colonne contenant l'identifiant de l'utilisateur
+        String[] columns = {COLUMN_ID};
         String selection = COLUMN_LOGIN + " = ? AND " + COLUMN_PASSWORD + " = ?";
         String[] selectionArgs = {username, password};
         Cursor cursor = db.query(TABLE_NAME_USERS, columns, selection, selectionArgs, null, null, null);
@@ -154,8 +138,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return userID;
     }
 
-
-    // Méthode pour insérer un article
+    /**
+     * Méthode pour ajouter un article dans la base de données.
+     * @param title Titre de l'article.
+     * @param imageUrl URL de l'image de l'article.
+     * @param content Contenu de l'article.
+     */
     public void addArticle(String title, String imageUrl, String content) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -166,7 +154,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-
+    /**
+     * Méthode pour récupérer tous les articles de la base de données.
+     * @return Liste des articles.
+     */
     public List<Article> getAllArticles() {
         List<Article> articlesList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -185,6 +176,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return articlesList;
     }
 
+    /**
+     * Méthode pour récupérer tous les commentaires associés à un article spécifique.
+     * @param articleID ID de l'article.
+     * @return Liste des commentaires de l'article.
+     */
     public List<Commentaire> getAllCommentaires(int articleID) {
         List<Commentaire> commentairesList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -200,8 +196,5 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         return commentairesList;
     }
-
-
-
 }
 

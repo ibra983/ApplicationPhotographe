@@ -18,7 +18,9 @@
             android:layout_marginBottom="8dp"
             android:textSize="24sp"
             android:textColor="@color/black"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"/>
 
         <ImageView
             android:id="@+id/detailArticleImageView"
@@ -32,7 +34,9 @@
             android:layout_width="match_parent"
             android:textColor="@color/black"
             android:layout_height="wrap_content"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"/>
 
         <EditText
             android:id="@+id/editTextContenu"
@@ -45,8 +49,11 @@
             android:id="@+id/btnPublier"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="end"
             android:text="Publier"
-            android:layout_gravity="end"/>
+            android:textColor="@color/white"
+            android:background="@color/bleu"
+            android:layout_marginTop="16dp" />
 
         <!-- Déplacer le LinearLayout pour afficher les commentaires ici -->
         <LinearLayout

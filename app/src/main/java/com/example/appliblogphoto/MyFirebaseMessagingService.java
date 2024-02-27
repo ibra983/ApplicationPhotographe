@@ -7,10 +7,9 @@ import com.google.firebase.messaging.RemoteMessage;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
-    private static final String TAG = "FCMService";
+    private static final String TAG = "FCMService"; // Tag utilisé pour les logs
 
-
-
+    // Méthode appelée lorsqu'un message de notification est reçu
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
@@ -26,23 +25,19 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
     }
 
+    // Méthode appelée lorsqu'un nouveau token FCM est généré
     @Override
     public void onNewToken(@NonNull String token) {
         Log.d(TAG, "Refreshed token: " + token);
-        sendRegistrationToServer(token);
+        sendRegistrationToServer(token); // Envoyer le token au serveur de l'application
     }
-
-
 
     /**
      * Persister le token sur le serveur de l'application si nécessaire.
-     *
      * @param token Le nouveau token FCM.
      */
     private void sendRegistrationToServer(String token) {
         // TODO: Implémentez cette méthode pour envoyer le token à votre serveur d'application.
         Log.d(TAG, "sendRegistrationToServer: " + token);
     }
-
-
 }
