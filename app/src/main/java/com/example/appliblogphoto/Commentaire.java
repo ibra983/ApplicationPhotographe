@@ -4,7 +4,7 @@ package com.example.appliblogphoto;
  * Classe représentant un commentaire d'article.
  */
 public class Commentaire {
-
+    // Attribut de la class
     private int id;
     private String commentaire;
 

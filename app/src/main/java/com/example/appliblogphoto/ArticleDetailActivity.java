@@ -90,6 +90,7 @@ public class ArticleDetailActivity extends AppCompatActivity {
                 Toast.makeText(ArticleDetailActivity.this, "Commentaire publié avec succès", Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 
     // Méthode pour ajouter un commentaire à la base de données

@@ -1,6 +1,7 @@
 package com.example.appliblogphoto;
 
 public class Article {
+    // Attribut de la class
     private int id;
     private String title;
     private String imageUrl;
